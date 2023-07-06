@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { CardsContext } from "../App";
 
-export default function ScoreBoard( { gameStatus, resetGame }) {
+export default function ScoreBoard( { gameStatus }) {
     const { cardList, selectedCards } = useContext(CardsContext);
     const [ progress, setProgress ] = useState(10);
 
@@ -18,7 +18,10 @@ export default function ScoreBoard( { gameStatus, resetGame }) {
 
     return (
         <section>
-            <p>Current attempt</p>
+            <div className="progress-text">
+                <p>Current attempt</p>
+                <p>{`${selectedCards.length} / ${cardList.length}`}</p>
+            </div>
             <div className="progress-bar">
                 <div style={{
                     height: "20px",
@@ -29,13 +32,6 @@ export default function ScoreBoard( { gameStatus, resetGame }) {
                     }}>
                 </div>
             </div>
-            {gameStatus !==0 && 
-                <div>
-                    {gameStatus == -1 && <p>Try again!</p>}
-                    {gameStatus == 1 && <p>Congratulations!</p>}
-                    <button onClick={() => {resetGame()}}> Restart game</button>
-                </div>
-            }
         </section>
     )
 }

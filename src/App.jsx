@@ -1,6 +1,8 @@
 import { useState, useEffect, createContext } from "react";
 import ScoreBoard from "./components/ScoreBoard";
 import CardList from "./components/CardList";
+import LoseModal from "./components/LoseModal";
+import WinModal from "./components/WinModal";
 import _ from 'lodash';
 
 export const CardsContext = createContext();
@@ -11,35 +13,35 @@ export default function App() {
   const [cardList, setCardList] = useState([
     {
         id: 1,
-        source: "/src/assets/bear.jpg"
+        source: "/bear.jpg"
     },
     {
         id: 2,
-        source: "/src/assets/bear-2.jpg"
+        source: "/bear-2.jpg"
     },
     {
         id: 3,
-        source: "/src/assets/bird.jpg"
+        source: "/bird.jpg"
     },
       {
         id: 4,
-        source: "/src/assets/bird-2.jpg"
+        source: "/bird-2.jpg"
     },
     {
         id: 5,
-        source: "/src/assets/bird-3.jpg"
+        source: "/bird-3.jpg"
     },
     {
         id: 6,
-        source: "/src/assets/deer.jpg"
+        source: "/deer.jpg"
     },
     {
         id: 7,
-        source: "/src/assets/deer-2.jpg"
+        source: "/deer-2.jpg"
     },
     {
         id: 8,
-        source: "/src/assets/deer-3.jpg"
+        source: "/deer-3.jpg"
     },
   ])
 
@@ -83,18 +85,18 @@ export default function App() {
       <header>
         <h1>Memory Folds</h1>
         <h2> 
-         Assemble a unique origami menagerie.
+         Assemble a unique origami menagerie
         </h2>
-        <p>  
-          Your goal is to select and fold each animal card with precision.
-        </p> 
-        <p>  
-          Be strategic, avoid duplicates, and become the master of paper artistry!
-        </p>
       </header>
       <main>
-        <CardsContext.Provider value={{cardList, selectedCards, recordSelectedCards, playRound}}>
+        <CardsContext.Provider value={{cardList, selectedCards, recordSelectedCards, playRound, resetGame}}>
           <ScoreBoard gameStatus={gameStatus} resetGame={resetGame}/>
+          {gameStatus !==0 && 
+                <div>
+                    {gameStatus == -1 && <LoseModal/>}
+                    {gameStatus == 1 && <WinModal/>}
+                </div>
+            }
           <CardList/>
         </CardsContext.Provider>
       </main>
