@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { CardsContext } from "../App";
+import ProgressBar from "./ProgressBar";
 
 export default function ScoreBoard( { gameStatus }) {
     const { cardList, selectedCards } = useContext(CardsContext);
@@ -11,7 +12,7 @@ export default function ScoreBoard( { gameStatus }) {
     }
 
     useEffect(() => {
-       if (gameStatus ===0) {
+       if (gameStatus === 0) {
         computeProgress();
        }
         }, [selectedCards, cardList])
@@ -22,16 +23,7 @@ export default function ScoreBoard( { gameStatus }) {
                 <p>Current attempt</p>
                 <p>{`${selectedCards.length} / ${cardList.length}`}</p>
             </div>
-            <div className="progress-bar">
-                <div style={{
-                    height: "20px",
-                    width: `${progress}%`,
-                    backgroundColor: "black",
-                    borderRadius: "8px",
-                    transition: "width 0.2s ease-in-out"
-                    }}>
-                </div>
-            </div>
+            <ProgressBar progress={progress}/>
         </section>
     )
 }

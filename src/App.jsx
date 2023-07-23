@@ -1,9 +1,17 @@
 import { useState, useEffect, createContext } from "react";
 import ScoreBoard from "./components/ScoreBoard";
 import CardList from "./components/CardList";
-import LoseModal from "./components/LoseModal";
-import WinModal from "./components/WinModal";
+import Modal from "./components/Modal";
 import _ from 'lodash';
+
+import bear from "./assets/bear.jpg";
+import bear2 from "./assets/bear-2.jpg";
+import bird from "./assets/bird.jpg";
+import bird2 from "./assets/bird-2.jpg";
+import bird3 from "./assets/bird-3.jpg";
+import deer from "./assets/deer.jpg";
+import deer2 from "./assets/deer-2.jpg";
+import deer3 from "./assets/deer-3.jpg";
 
 export const CardsContext = createContext();
 
@@ -13,37 +21,49 @@ export default function App() {
   const [cardList, setCardList] = useState([
     {
         id: 1,
-        source: "/bear.jpg"
+        source: bear
     },
     {
         id: 2,
-        source: "/bear-2.jpg"
+        source: bear2
     },
     {
         id: 3,
-        source: "/bird.jpg"
+        source: bird
     },
       {
         id: 4,
-        source: "/bird-2.jpg"
+        source: bird2
     },
     {
         id: 5,
-        source: "/bird-3.jpg"
+        source: bird3
     },
     {
         id: 6,
-        source: "/deer.jpg"
+        source: deer
     },
     {
         id: 7,
-        source: "/deer-2.jpg"
+        source: deer2
     },
     {
         id: 8,
-        source: "/deer-3.jpg"
+        source: deer3
     },
   ])
+
+  // Content of the modal that shows upon winning or losing
+  const outcomeText = {
+    win: {
+      title: "Mastery Attained!",
+      content: "You have successfully completed the challenge and assembled a complete collection of origami animals.  Well done!"
+    },
+    lose: {
+      title: "Better Luck Next Time!",
+      content: "The art of origami takes time to perfect. Keep folding and refining your skills. Remember, practice makes perfect!"
+    },
+  }
 
   function shuffleCards() {
       setCardList((currentList) => {
@@ -84,17 +104,15 @@ export default function App() {
     <>
       <header>
         <h1>Memory Folds</h1>
-        <h2> 
-         Assemble a unique origami menagerie
-        </h2>
+        <h2>Assemble a unique origami menagerie</h2>
       </header>
       <main>
         <CardsContext.Provider value={{cardList, selectedCards, recordSelectedCards, playRound, resetGame}}>
           <ScoreBoard gameStatus={gameStatus} resetGame={resetGame}/>
           {gameStatus !==0 && 
                 <div>
-                    {gameStatus == -1 && <LoseModal/>}
-                    {gameStatus == 1 && <WinModal/>}
+                    {gameStatus == -1 && <Modal title={outcomeText.lose.title} content={outcomeText.lose.content}/>}
+                    {gameStatus == 1 && <Modal title={outcomeText.win.title} content={outcomeText.win.content}/>}
                 </div>
             }
           <CardList/>
